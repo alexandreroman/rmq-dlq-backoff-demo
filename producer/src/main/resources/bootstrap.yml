@@ -1,0 +1,3 @@
+spring:
+  application:
+    name: rmq-dlq-backoff-producer

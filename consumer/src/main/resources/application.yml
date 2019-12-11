@@ -1,0 +1,31 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+
+server:
+  port: ${PORT:8081}
+
+spring:
+  cloud:
+    stream:
+      bindings:
+        input:
+          destination: stock
+          group: updates
+          consumer:
+            maxAttempts: 1
+      rabbit:
+        bindings:
+          input:
+            consumer:
+              # Pattern described here:
+              # https://cloud.spring.io/spring-cloud-static/spring-cloud-stream-binder-rabbit/3.0.0.RELEASE/reference/html/spring-cloud-stream-binder-rabbit.html#_retry_with_the_rabbitmq_binder
+              autoBindDlq: true
+              dlqTtl: 10000
+              dlqDeadLetterExchange:
+
+app:
+  stock:
+    maxAttemptsBeforeEviction: 6
